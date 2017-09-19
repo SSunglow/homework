@@ -287,5 +287,19 @@ public class Posts implements java.io.Serializable {
 			return "fail";
 		}
 	}
+	
+	public String showHotPosts(){
+		List list;
+		String where = "where rownum <= 10 order by clicknum desc";
+		list = RunPosts.findPart(where);
+		if (list != null) {
+			ActionContext atx = ActionContext.getContext();
+			atx.getSession().put("hotPosts", list);
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
 
 }

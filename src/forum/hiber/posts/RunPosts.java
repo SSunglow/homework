@@ -53,4 +53,17 @@ public class RunPosts {
 		PostsDAO pdao=new PostsDAO();
 		return pdao.findPart(where);
 	}
+	
+	//查询某一版块点击量前n的帖子；
+	public static List findHot(int num,int plateid){
+		PostsDAO pdao=new PostsDAO();
+		String where = "where rownum <= "+ num+"and plateid = "+plateid+
+				   "order by clicknum desc";
+		return pdao.findPart(where);
+	}
+	public static List findHot(int num){
+		PostsDAO pdao=new PostsDAO();
+		String where = "where rownum <= "+ num+"order by clicknum desc";
+		return pdao.findPart(where);
+	}
 }

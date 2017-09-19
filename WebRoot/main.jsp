@@ -2,6 +2,7 @@
 <%@ page import="forum.hiber.plate.RunPlate"%>
 <%@ page import="forum.hiber.plate.Plate"%>
 
+<%@taglib prefix="s" uri="/struts-tags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -175,9 +176,15 @@ List list = RunPlate.searchAll();
 							<b>|</b>
 							<a href="#">个人中心</a>
 							<b>|</b>
+							
+							<s:if test="!session.getAttribute()">
 							<a href="login.html" target="_blank">登录</a>
 							<b>|</b>
 							<a href="register.html" target="_blank">注册</a>
+							</s:if>
+							<s:if test="session.getAttribute()!=null">
+							这是名字
+							</s:if>
 						</p>
 					</div>
 					<div class="footer-bd">
