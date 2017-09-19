@@ -205,7 +205,7 @@ List list = RunPlate.searchAll();
                 	
                 	String row="<li class='person'>";
                 	for(int i=0;i<list.size();i++){
-       			         row = row +"<li><a href='action!find.action'>"
+       			         row = row +"<li><a href='postsAction!showPosts.action?plateid="+((Plate)list.get(i)).getPlateid().toString()+"'>"
        			             +((Plate)list.get(i)).getPlatename()+"</li>" ;
        			         } 
        				row = row +"</li>";

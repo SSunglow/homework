@@ -172,7 +172,7 @@ public class PostsDAO extends BaseHibernateDAO {
 	public List findPart(String cond) {
 		log.debug("finding all Posts instances");
 		try {
-			String queryString = "from Posts as forumuser"+cond;
+			String queryString = "from Posts as posts"+cond;
 			Query queryObject = getSession().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {

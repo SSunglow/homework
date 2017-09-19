@@ -16,7 +16,7 @@ public class Posts implements java.io.Serializable {
 
 	// Fields
 
-	private Short conid;
+	private Integer conid;
 	private Short plateid;
 	private String title;
 	private String author;
@@ -42,12 +42,12 @@ public class Posts implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Posts(Short conid) {
+	public Posts(Integer conid) {
 		this.conid = conid;
 	}
 
 	/** full constructor */
-	public Posts(Short conid, Short plateid, String title, String author,
+	public Posts(Integer conid, Short plateid, String title, String author,
 			Integer clicknum, Integer replynum, Date replytime,
 			Integer goodnum, String content, Date ctime) {
 		this.conid = conid;
@@ -64,11 +64,11 @@ public class Posts implements java.io.Serializable {
 
 	// Property accessors
 
-	public Short getConid() {
+	public Integer getConid() {
 		return this.conid;
 	}
 
-	public void setConid(Short conid) {
+	public void setConid(Integer conid) {
 		this.conid = conid;
 	}
 
@@ -270,17 +270,20 @@ public class Posts implements java.io.Serializable {
 	}
   
 	public String showPosts(){
+		System.out.println("showPosts:"+this.getPlateid());
 		List list;
 		Plate plate = RunPlate.searchPlateById(this.getPlateid());
 		forum.other.page p = new forum.other.page(this.getPage(),plate.getPostscount(),20);
 		String where =" where plateid =" + this.getPlateid() 
+				/*
 				             +"and rownum >=" + p.getFirst(page) 
-				             +"and rownum <=" + p.getLast(page);
+				             +"and rownum <=" + p.getLast(page)*/;
 		list = RunPosts.findPart(where);
 		if (list != null) {
 			ActionContext atx = ActionContext.getContext();
 			atx.getSession().put("plate", plate );
 			atx.getSession().put("posts", list);
+			atx.getSession().put("page", page);
 			return "success";
 		}
 		else {
