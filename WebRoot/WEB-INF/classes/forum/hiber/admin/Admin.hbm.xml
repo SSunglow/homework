@@ -8,7 +8,7 @@
     <class name="forum.hiber.admin.Admin" table="ADMIN" schema="SCOTT">
         <id name="adminid" type="java.lang.Short">
             <column name="ADMINID" precision="2" scale="0" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="adminname" type="java.lang.String">
             <column name="ADMINNAME" length="20" />

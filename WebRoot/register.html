@@ -3,12 +3,26 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title></title>	
-		<link rel="stylesheet" href="../Forum/css/core.css" />
-		<link rel="stylesheet" href="../Forum/css/menu.css" />
-		<link rel="stylesheet" href="../Forum/css/amazeui.css" />
-		<link rel="stylesheet" href="../Forum/css/component.css" />
-		<link rel="stylesheet" href="../Forum/css/form.css" />
+		<title>用户注册</title>	
+		<link rel="stylesheet" href="css/core.css" />
+		<link rel="stylesheet" href="css/menu.css" />
+		<link rel="stylesheet" href="css/amazeui.css" />
+		<link rel="stylesheet" href="css/component.css" />
+		<link rel="stylesheet" href="css/form.css" />
+		<script language="JavaScript">   
+		function sele(){  
+	  		if(document.getElementById("remember-me").checked==false)     //判断单选框此时状态为未选remember-me为单选框id  
+  			{  
+  				document.getElementById("button_disabled").style.display="inline";   //显示不可用按钮  
+				document.getElementById("button_enabled").style.display="none";   //隐藏不可用按钮  
+            }  
+			else        //判断单选框此时状态为已选  
+			{  
+				document.getElementById("button_disabled").style.display="none";
+				document.getElementById("button_enabled").style.display="inline";  
+			}			  
+		}
+		</script>
 	</head>
 	<body>
 		<div class="account-pages">
@@ -21,28 +35,46 @@
 	                    <h4 class="text-uppercase font-bold m-b-0">注册</h4>
 	                </div>
 	                <div class="panel-body">
-	                	<form class="am-form">
+	                	<form class="am-form" method="post" action="loginAction!registUser.action" name="login" onSubmit="return Check()">
 	                		<div class="am-g">
 	                			<div class="am-form-group">
-							      <input type="email" class="am-radius"  placeholder="用户">
+							      <input type="text" class="am-radius" name="username"  placeholder="用户">
 							    </div>
 							
 							    <div class="am-form-group form-horizontal m-t-20">
-							      <input type="password" class="am-radius"  placeholder="请输入密码">
+							      <input type="password" class="am-radius" name="userpwd" placeholder="请输入密码">
 							    </div>	
 							    
 							    <div class="am-form-group form-horizontal m-t-20">
-							      <input type="password" class="am-radius"  placeholder="请再次输入密码">
+							      <input type="password" class="am-radius" name="userpwd1" placeholder="请再次输入密码">
 							    </div>	
 							    
 							    <div class="am-form-group form-horizontal m-t-20">
-							     <input id="remember-me" type="checkbox">
+							     <input id="remember-me" type="checkbox" onchange="sele()">
                                   <label for="remember-me">      
                                                                      我已阅读并同意 <a href="agreement.html" target="_blank">《用户注册协议》</a> 
                                    </label>
 		                       </div>
 		                        <div class="am-form-group ">
-		                        	<button type="button" class="am-btn am-btn-primary am-radius" style="width: 100%;height: 100%; float:initial;">注册</button>
+		                        	<button type="submit" class="am-btn am-btn-primary am-radius" style="width: 100%;height: 100%; float:initial;" id="button_disabled" disabled="true">注册</button>
+		                        	<button type="submit" class="am-btn am-btn-primary am-radius" style="width: 100%;height: 100%; float:initial; display: none;" id="button_enabled">注册</button>
+		                        	<script language="JavaScript" type="text/javascript">
+									function Check() {
+										if(document.login.username.value == "") {
+											window.alert("账号不能为空！");
+											return false;
+										}
+										if(document.login.userpwd.value == "") {
+											window.alert("密码不能为空！");
+											return false;
+										}
+										else if(document.login.userpwd.value != document.login.userpwd1.value){
+											window.alert("两次密码不一样！");
+											return false;
+										}
+										return true;
+									}
+									</script>
 		                        </div>
 		                      
 		                        <div class="am-form-group ">

@@ -8,6 +8,20 @@
              <result name="fail">/main.jsp</result>
           </action>
       </package>
+      <package name="login" extends="struts-default" namespace="/">
+		<action name="loginAction" class="forum.hiber.forumuser.Forumuser">
+			<result name="success">/main.jsp</result>
+			<result name="login">/login.html</result>
+			<result name="loginskip">/loginskip.html</result>
+			<result name="error">/register.html</result>
+			<result name="registskip">/registskip.html</result>
+			<result name="registadmin">/admin_login.html</result>
+		</action>
+		<action name="adminAction" class="forum.hiber.admin.Admin">
+			<result name="success">/main.jsp</result>
+			<result name="registadmin">/admin_login.html</result>
+		</action>
+	</package>
       
 
 </struts>    

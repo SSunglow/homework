@@ -46,12 +46,19 @@ List list = RunPlate.searchAll();
 							    <div class="topMessage favorite">
 								        <a href="user_info_modify.html" target="_blank"><i class="am-icon-heart am-icon-fw"></i>个人中心</a>
 							    </div>
+							    
+							<s:if test="#session.name!=null">
+							    
+							   <div> <%=session.getAttribute("name") %></div>
+							</s:if>
+							    <s:else >
 							    <div class="topMessage my-shangcheng">
 								        <a href="login.html" target="_blank"><i class="am-icon-user am-icon-fw"></i>登录</a>
 							    </div>
 							    <div class="topMessage favorite">
 								        <a href="register.html" target="_blank"><i class="am-icon-heart am-icon-fw"></i>注册</a>
 							    </div>
+							    </s:else>
 						</ul>
 						</div>
 
@@ -177,14 +184,9 @@ List list = RunPlate.searchAll();
 							<a href="#">个人中心</a>
 							<b>|</b>
 							
-							<s:if test="!session.getAttribute()">
 							<a href="login.html" target="_blank">登录</a>
 							<b>|</b>
 							<a href="register.html" target="_blank">注册</a>
-							</s:if>
-							<s:if test="session.getAttribute()!=null">
-							这是名字
-							</s:if>
 						</p>
 					</div>
 					<div class="footer-bd">

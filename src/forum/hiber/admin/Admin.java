@@ -1,7 +1,4 @@
 package forum.hiber.admin;
-
-import com.opensymphony.xwork2.ActionContext;
-
 /**
  * Admin entity. @author MyEclipse Persistence Tools
  */
@@ -60,19 +57,15 @@ public class Admin implements java.io.Serializable {
 	
 	//Struts2的执行函数
 	//登录功能：{用Struts2的默认规则}
-	public String execute(){
-		Short adminid=new Short(this.getAdminid());
-		Admin admin=RunAdmin.searchAdminById(adminid);
-		if(this.getAdminname().equals(admin.getAdminname())&&this.getAdminpwd().equals(admin.getAdminpwd()))
-		{
-			//访问Servlet-api:
-			ActionContext atx=ActionContext.getContext();
-			atx.getSession().put("name", this.getAdminname());
-			return "success";
-		}
-		else{
-			return "fail";
-		}
+	public String execute() throws Exception {
+		AdminDAO adminDao = new AdminDAO();  
+		Admin admin = new Admin();  
+		admin.setAdminname(adminname);  
+		admin.setAdminpwd(adminpwd);  
+		if(adminDao.check(admin)) {  
+        	return "success";  
+        }  
+        return "registadmin";
 	}
 
 }

@@ -8,8 +8,8 @@ public class RunForumuser {
 		// TODO Auto-generated method stub
 		//ÔËÐÐÌí¼Ó£º
 		Forumuser me=new Forumuser();
-		me.setUsername("³Â½à");
-		me.setUserpwd("666666");
+		me.setUsername("cj");
+		me.setUserpwd("123456");
 		//addForumuser(me);
 		searchAll();
 	}

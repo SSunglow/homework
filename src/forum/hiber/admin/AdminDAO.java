@@ -1,13 +1,17 @@
 package forum.hiber.admin;
 
 import forum.hiber.BaseHibernateDAO;
+import forum.hiber.HibernateUtil;
+import forum.hiber.forumuser.Forumuser;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 
@@ -28,6 +32,12 @@ public class AdminDAO extends BaseHibernateDAO {
 	public static final String ADMINNAME = "adminname";
 	public static final String ADMINPWD = "adminpwd";
 
+	private Session session;  
+	private Transaction tx;  
+	public AdminDAO() {  
+        session = HibernateUtil.getSession();  
+    } 
+	
 	//相当于DB的insert into语句
 	public boolean save(Admin transientInstance) {
 		boolean b=false;
@@ -188,4 +198,23 @@ public class AdminDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+	
+	public boolean check(Admin admin) {  
+	    tx = session.beginTransaction();  
+	    String sql = "select a.adminpwd from Admin a where a.adminname='" +admin.getAdminname()+ "'";  
+	    List list = session.createQuery(sql).list();  
+	    if(!list.isEmpty()) {  
+	         Iterator it = list.iterator();  
+	         while(it.hasNext()) {  
+	             String get = (String) it.next();  
+	             System.out.println(get);  
+	             if(get.equals(admin.getAdminpwd())) {  
+	                 HibernateUtil.closeSession();  
+	                 return true;  
+	             }  
+	         }  
+	    }  
+	    HibernateUtil.closeSession();  
+	    return false;     
+	}  
 }

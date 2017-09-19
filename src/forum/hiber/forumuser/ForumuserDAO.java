@@ -1,13 +1,17 @@
 package forum.hiber.forumuser;
 
 import forum.hiber.BaseHibernateDAO;
+import forum.hiber.HibernateUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 
@@ -35,7 +39,15 @@ public class ForumuserDAO extends BaseHibernateDAO {
 	public static final String POSTSCOUNT = "postscount";
 	public static final String FANSNUM = "fansnum";
 	public static final String CONCERNNUM = "concernnum";
+	public static final String HOME = "home";
+	public static final String SCHOOL = "school";
 
+	private Session session;  
+	private Transaction tx;  
+	public ForumuserDAO() {  
+        session = HibernateUtil.getSession();  
+    } 
+	
 	//相当于DB的insert into语句
 	public boolean save(Forumuser transientInstance) {
 		boolean b=false;
@@ -51,7 +63,7 @@ public class ForumuserDAO extends BaseHibernateDAO {
 			throw re;
 		}
 		return b;
-	}
+	} 
 	
 	//相当于DB的update语句
 	public boolean update(Forumuser transientInstance) {
@@ -171,6 +183,14 @@ public class ForumuserDAO extends BaseHibernateDAO {
 	public List findByConcernnum(Object concernnum) {
 		return findByProperty(CONCERNNUM, concernnum);
 	}
+	
+	public List findByHome(Object home) {
+		return findByProperty(HOME, home);
+	}
+
+	public List findBySchool(Object school) {
+		return findByProperty(SCHOOL, school);
+	}
 
 	//相当于DB的select * from 表
 	public List findAll() {
@@ -230,4 +250,23 @@ public class ForumuserDAO extends BaseHibernateDAO {
 			throw re;
 		}
 	}
+	 
+	public boolean check(Forumuser forumuser) {  
+	    tx = session.beginTransaction();  
+	    String sql = "select u.userpwd from Forumuser u where u.username='" +forumuser.getUsername()+ "'";  
+	    List list = session.createQuery(sql).list();  
+	    if(!list.isEmpty()) {  
+	         Iterator it = list.iterator();  
+	         while(it.hasNext()) {  
+	             String get = (String) it.next();  
+	             System.out.println(get);  
+	             if(get.equals(forumuser.getUserpwd())) {  
+	                 HibernateUtil.closeSession();  
+	                 return true;  
+	             }  
+	         }  
+	    }  
+	    HibernateUtil.closeSession();  
+	    return false;     
+	}  
 }

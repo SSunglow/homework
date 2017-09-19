@@ -66,6 +66,24 @@ create table forumuser
     fansnum  number(5),
     concernnum  number(4)
 );
+drop table forumuser;
+create table forumuser 
+(
+    userid  number(6)  primary key,
+    username  varchar(20),
+    userpwd  varchar(20),
+    gender  varchar(2),
+    age  number(2),
+    identity  varchar(50),
+    email  varchar(50),
+    integral  number(6),
+    postscount  number(6),
+    fansnum  number(5),
+    concernnum  number(4),
+    home varchar(50),
+    school varchar(50)
+);
+
 
 /*==============================================================*/
 /* Table5: ¹Ø×¢£¨id£¬·ÛË¿id£¬¹Ø×¢ÈËid£©                                               */

@@ -2,6 +2,11 @@ package forum.hiber.forumuser;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -23,6 +28,8 @@ public class Forumuser implements java.io.Serializable {
 	private Integer postscount;
 	private Integer fansnum;
 	private Short concernnum;
+	private String home;
+	private String school;
 
 	// Constructors
 
@@ -39,7 +46,7 @@ public class Forumuser implements java.io.Serializable {
 	public Forumuser(Short userid, String username, String userpwd,
 			String gender, Short age, String identity, String email,
 			Integer integral, Integer postscount, Integer fansnum,
-			Short concernnum) {
+			Short concernnum, String home, String school) {
 		this.userid = userid;
 		this.username = username;
 		this.userpwd = userpwd;
@@ -51,6 +58,8 @@ public class Forumuser implements java.io.Serializable {
 		this.postscount = postscount;
 		this.fansnum = fansnum;
 		this.concernnum = concernnum;
+		this.home = home;
+		this.school = school;
 	}
 
 	// Property accessors
@@ -142,10 +151,26 @@ public class Forumuser implements java.io.Serializable {
 	public void setConcernnum(Short concernnum) {
 		this.concernnum = concernnum;
 	}
+	
+	public String getHome(){
+		return this.home;
+	}
+	
+	public void setHome(String home) {
+		this.home = home;
+	}
+
+	public String getSchool() {
+		return this.school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
 
 	//Struts2的执行函数
 	//登录功能：{用Struts2的默认规则}
-	public String execute(){
+	/*public String execute(){
 		Short userid=new Short(this.getUserid());
 		Forumuser forumuser=RunForumuser.searchForumuserById(userid);
 		if(this.getUsername().equals(forumuser.getUsername())&&this.getUserpwd().equals(forumuser.getUserpwd()))
@@ -158,24 +183,41 @@ public class Forumuser implements java.io.Serializable {
 		else{
 			return "fail";
 		}
-	}
+	} */ 
 	
+	public String execute() throws Exception {  
+		ForumuserDAO forumuserDao = new ForumuserDAO();  
+		Forumuser forumuser = new Forumuser();  
+		//forumuser.setUsername(this.getUsername());
+		//forumuser.setUserpwd(this.getUserpwd());
+		forumuser.setUsername(username);  
+		forumuser.setUserpwd(userpwd);  
+        if(forumuserDao.check(forumuser)) {  
+        	ActionContext atx=ActionContext.getContext();
+			atx.getSession().put("name", this.getUsername());
+        	return "success";  
+        }  
+        return "loginskip";
+    }  
+
 	//注册功能：
 	public String registUser(){
 		Forumuser forumuser=new Forumuser();
 		//forumuser.setUserid(this.getUserid());
+		//forumuser.setUsername(username);  
+		//forumuser.setUserpwd(userpwd);  
 		forumuser.setUsername(this.getUsername());
 		forumuser.setUserpwd(this.getUserpwd());
 		
 		if(RunForumuser.addForumuser(forumuser)){
 			System.out.println("正在注册");
-			return "success";
+			return "registskip";
 		}
 		else
-			return "fail";
+			return "error";
 	}
 	
-	/*//修改密码功能：
+	//修改密码功能：
 	public String modifyPwd(){
 		Forumuser forumuser=new Forumuser();
 		forumuser.setUsername(this.getUsername());
@@ -187,21 +229,24 @@ public class Forumuser implements java.io.Serializable {
 		}
 		else
 			return "fail";
-	}*/
+	}
 	
 	//修改功能：
 	public String modifyUser(){
 		Forumuser forumuser=new Forumuser();
+		forumuser.setUserid(this.getUserid());
 		forumuser.setUsername(this.getUsername());
-		forumuser.setUserpwd(this.getUserpwd());
+		//forumuser.setUserpwd(this.getUserpwd());
 		forumuser.setGender(this.getGender());
 		forumuser.setAge(this.getAge());
 		forumuser.setIdentity(this.getIdentity());
 		forumuser.setEmail(this.getEmail());
-		forumuser.setIntegral(this.getIntegral());
-		forumuser.setPostscount(this.getPostscount());
-		forumuser.setFansnum(this.getFansnum());
-		forumuser.setConcernnum(this.getConcernnum());
+		//forumuser.setIntegral(this.getIntegral());
+		//forumuser.setPostscount(this.getPostscount());
+		//forumuser.setFansnum(this.getFansnum());
+		//forumuser.setConcernnum(this.getConcernnum());
+		forumuser.setHome(this.getHome());
+		forumuser.setSchool(this.getSchool());
 		
 		if(RunForumuser.modifyForumuser(forumuser)){
 			System.out.println("修改");
@@ -278,8 +323,7 @@ public class Forumuser implements java.io.Serializable {
 				where+=" and forumuser.fansnum like '%"+this.getFansnum()+"%' ";
 			if(this.getConcernnum()!=null)
 				where+=" and forumuser.concernnum like '%"+this.getConcernnum()+"%' ";
-			
-				
+					
 				System.out.println(where);
 				lst=RunForumuser.findPart(where);
 		}		

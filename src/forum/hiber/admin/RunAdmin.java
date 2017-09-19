@@ -6,6 +6,10 @@ public class RunAdmin {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Admin admin=new Admin();
+		admin.setAdminname("admin");
+		admin.setAdminpwd("123456");
+		//addAdmin(admin);
 		searchAll();
 	}
 	public static Admin searchAdminById(Short adminid){

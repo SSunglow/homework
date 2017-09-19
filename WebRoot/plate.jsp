@@ -163,14 +163,9 @@ List posts =(List) session.getAttribute("posts");
 							<a href="#">个人中心</a>
 							<b>|</b>
 							
-							<s:if test="!session.getAttribute('login')">
 							<a href="login.html" target="_blank">登录</a>
 							<b>|</b>
 							<a href="register.html" target="_blank">注册</a>
-							</s:if>
-							<s:if test="session.getAttribute('login')!=null">
-							这是名字
-							</s:if>
 						</p>
 					</div>
 					<div class="footer-bd">
